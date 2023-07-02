@@ -26,7 +26,6 @@ public class HellobootApplication {
 		WebServer webServer = serverFactory.getWebServer(servletContext -> {
 			HelloController helloController = new HelloController();
 
-
 			// servlet을 추가
 			// HttpServlet: 일종의 adapter 클래스
 			// addMapping을 통해 요청이 서블릿과 매핑될 수 있도록 한다.
