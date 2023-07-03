@@ -2,28 +2,21 @@ package tobyspring.helloboot;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
-import org.springframework.context.support.GenericApplicationContext;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.MediaType.TEXT_PLAIN_VALUE;
+import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 
 public class HellobootApplication {
 
 	public static void main(String[] args) {
 		// 스프링 컨테이너 생성
-		GenericApplicationContext applicationContext = new GenericApplicationContext();
-		// bean 등록
+		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
+
+		// bean 등록 (DI는 스프링 컨테이너가 알아서 잘 해줄겁니다 ~^^~)
 		applicationContext.registerBean(HelloController.class);
+		applicationContext.registerBean(SimpleHelloService.class);
+
 		// 컨테이너 초기화 작업
 		applicationContext.refresh();
-
 
 		// 임베디드 Tomcat(서블릿 컨테이너)을 직접 띄워보자!
 		TomcatServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
@@ -34,30 +27,9 @@ public class HellobootApplication {
 			// servlet을 추가
 			// HttpServlet: 일종의 adapter 클래스
 			// addMapping을 통해 요청이 서블릿과 매핑될 수 있도록 한다.
-			servletContext.addServlet("frontcontroller", new HttpServlet() {
-				@Override
-				protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-					// frontcontroller(1) : 인증, 보안, 다국어, 공통기능을 처리
-
-					// frontcontroller(2) : 요청에 따라 서블릿을 매핑
-					if(req.getRequestURI().equals("/hello") && req.getMethod().equals(GET.name())) {
-						// 요청 쿼리 파라미터 가져오기
-						String name = req.getParameter("name");
-
-						// 서블릿 컨테이너는 HelloController라는 타입의 오브젝트가 어떻게 만들어 졌는지 신경쓰지 않습니다.
-						// 빈 가져오기
-						HelloController helloController = applicationContext.getBean(HelloController.class);
-						// 로직 수행
-						String ret = helloController.hello(name);
-
-						// 응답을 만든다.
-						resp.setContentType(TEXT_PLAIN_VALUE);
-						resp.getWriter().println(ret);
-					}else {
-						resp.setStatus(NOT_FOUND.value());
-					}
-				}
-			}).addMapping("/*");
+			servletContext.addServlet("dispatcherServlet",
+						new DispatcherServlet(applicationContext)
+					).addMapping("/*");
 		});
 
 		// Tomcat Servlet Container 동작
