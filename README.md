@@ -64,6 +64,19 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 * 왜 팩토리 메서드를 사용하나?
   * 팩토리 메서드 방식 = ```@Configuration``` + ```@Bean```
   * 왜 구지 bean 객체를 직접 생성해서 주입하려고 하나.. → bean을 만들고 초기화하는 작업이 복잡한 경우가 있다 → 자바 코드로 간결하게 만들자
+  ```java
+  @Configuration
+  public class HellobootApplication {
+    @Bean
+    public HelloController helloController(HelloService helloService) {
+        return new HelloController(helloService);
+    }
+    @Bean
+    public HelloService helloService() {
+        return new SimpleHelloService();
+    }
+  }
+  ```
 * Configuration 클래스
   * 구성 정보 클래스
   * 쉽게 말해 빈 팩토리 메서드가 있는 클래스
@@ -77,3 +90,11 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 
 
 ### @Component 스캔
+* @ComponentScan + @Component
+  * 아주 간단하게 빈을 등록하고 사용할 수 있는 방법
+  * 단 빈이 너무 많아지게 되면 어떠한 빈들이 등록되는지 확인하기 어렵다는 단점이 있다. → 다만 극복할 수 있는 단점이기에 거의 표준적인 방식으로 사용되고 있다.
+* 메타 애노테이션
+  * 애노테이션 위의 애노테이션
+  * 쉽게 말해 @Controller, @Service 같은 애노테이션들을 의미한다.
+  * 메타 에노테이션은 여러 단계로 중첩되기도 한다. ex) RestController
+
