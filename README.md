@@ -56,7 +56,7 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
         });
         
         webServer.start();
-    }
+    `}
 };
 ```
 
@@ -97,4 +97,14 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * 애노테이션 위의 애노테이션
   * 쉽게 말해 @Controller, @Service 같은 애노테이션들을 의미한다.
   * 메타 에노테이션은 여러 단계로 중첩되기도 한다. ex) RestController
+
+### Bean 생명주기 메서드
+* TomcatServletWebServerFactory와 DispatcherServlet을 Bean으로 등록하자
+* DispatcherServlet을 단순히 Bean으로 등록만 해도  스프링 컨테이너가 알아서 applicationContext를 주입한다.
+  * DispatcherServlet은 ApplicationContextAware라는 인터페이스를 구현하고 있다.
+  * ApplicationContextAware를 구현한 클래스가 Bean으로 등록되면 스프링 컨테이너는 해당 인터페이스의 setter메서드를 통해 ApplicationContext를 주입한다.
+  * 해당 메서드는 스프링 컨테이너가 초기화되는 시점에 작업이 일어난다.
+* ApplicationContext 오브젝트는 스프링 컨테이너 입장에서는 자기 자신이기도 하지만 Bean으로 취급한다.
+
+
 
