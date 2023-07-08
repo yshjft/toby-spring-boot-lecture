@@ -107,4 +107,4 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 * ApplicationContext 오브젝트는 스프링 컨테이너 입장에서는 자기 자신이기도 하지만 Bean으로 취급한다.
 
 
-
+## SECTION 5 DI와 테스트, 디자인 패턴
