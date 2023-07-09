@@ -1,21 +1,32 @@
 package tobyspring.helloboot;
 
+
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@WebMvcTest(HelloController.class)
 class HelloControllerTest {
-    @Autowired
-    MockMvc mockMvc;
+    @Test
+    void helloController() {
+        HelloController helloController  = new HelloController(name -> name);
+
+        String test = helloController.hello("Test");
+
+        assertThat(test).isEqualTo("Test");
+    }
 
     @Test
-    void testHello() throws Exception{
-        mockMvc.perform(get("/hello?name=jerry"))
-                .andExpect(content().string("hello jerry"));
+    void failHelloController() {
+        HelloController helloController  = new HelloController(name -> name);
+
+        Assertions.assertThatThrownBy(() -> {
+            helloController.hello(null);
+        }).isInstanceOf(IllegalArgumentException.class);
+
+
+        Assertions.assertThatThrownBy(() -> {
+            helloController.hello("");
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 }

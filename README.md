@@ -108,3 +108,18 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 
 
 ## SECTION 5 DI와 테스트, 디자인 패턴
+
+### 단위 테스트
+* 빠르고 간결하게 하는 테스트
+* 고립시켜서 하는 테스트 
+* stub도 일종의 DI로 볼 수 있다.
+
+### DI를 이용한 Decoration 패턴과 Proxy 패턴
+* autowiring : Bean 주입시 단일 주입 후보를 찾게 되면 해당 Bean을 주입하게 된다.
+* Decorator : 여러가지 기능과 책임을 부가적으로 주는 객체
+* @Primary : 단일 주입 후보가 아닌 경우 주입될 Bean의 우선순위 설정. 다만 우선순위를 설정할 Bean이 여러개가 되면 복잡해지므로 자바 코드를 이용하여 명시적으로 정의해주는 것이 더 좋은 방법일 수 있다.
+* Proxy
+  * Lazy Loading
+    * 실제 사용할 객체의 비용이 너무 비싸서 객체의 생성을 최대한 미룰 때 사용할 수 있다.
+  * Remote Access
+    * 사용자 측에서 API 호출 등의 영향을 받지 않도록 Proxy가 대리자의 역할을 한다.

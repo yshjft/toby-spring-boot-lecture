@@ -15,8 +15,16 @@ class HelloApiTest {
         TestRestTemplate restTemplate = new TestRestTemplate();
         ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
 
-        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue();
-        assertThat(res.getBody().trim()).isEqualTo("Hello Spring");
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK); // 상태코드
+        assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue(); // 헤더
+        assertThat(res.getBody().trim()).isEqualTo("*Hello Spring*"); // 바디
+    }
+
+    @Test
+    void failHelloApi() {
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "");
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
