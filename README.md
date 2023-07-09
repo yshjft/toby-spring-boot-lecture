@@ -123,3 +123,11 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
     * 실제 사용할 객체의 비용이 너무 비싸서 객체의 생성을 최대한 미룰 때 사용할 수 있다.
   * Remote Access
     * 사용자 측에서 API 호출 등의 영향을 받지 않도록 Proxy가 대리자의 역할을 한다.
+
+## SECTION 6 자도 구성 기반 애플리케이션
+### 메타 애노테이션
+* 애노테이션에 적용한 애노테이션
+
+### 하q성 애노테이션
+* 메타 애노테이션이 하나 이상 적용된 애노테이션
+* ex) RestController = ResponseBody + Controller
