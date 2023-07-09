@@ -1,5 +1,6 @@
 package tobyspring.helloboot;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +22,6 @@ public class HellobootApplication {
 	}
 
 	public static void main(String[] args) {
-		// 처음에 사용하였던 SpringApplication.run()과 모양이 매우 같아졌다.
-		MySpringApplication.run(HellobootApplication.class, args);
+		SpringApplication.run(HellobootApplication.class, args);
 	}
 }

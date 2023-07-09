@@ -1,0 +1,30 @@
+package tobyspring.helloboot;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class HelloApiTest {
+    @Test
+    void helloApi() {
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK); // 상태코드
+        assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue(); // 헤더
+        assertThat(res.getBody().trim()).isEqualTo("*Hello Spring*"); // 바디
+    }
+
+    @Test
+    void failHelloApi() {
+        TestRestTemplate restTemplate = new TestRestTemplate();
+        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:8080/hello?name={name}", String.class, "");
+
+        assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
