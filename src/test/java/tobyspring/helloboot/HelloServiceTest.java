@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @interface UnitTest {
 }
 
-
 class HelloServiceTest {
     @UnitTest
     void simpleHelloService() {

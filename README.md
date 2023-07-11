@@ -127,7 +127,18 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 ## SECTION 6 자도 구성 기반 애플리케이션
 ### 메타 애노테이션
 * 애노테이션에 적용한 애노테이션
+* ex) @Component
+* 동일한 기능을 하면서 추가적인 정보와 기능 제공
+* (질문) @Target에 ElementType.ANNOTATION_TYPE이 포함되지 않는데 어떻게 메타 에노테이션으로 사용할 수 있는 걸까? ex) @Component,...
 
-### 하q성 애노테이션
+### 합성 애노테이션
 * 메타 애노테이션이 하나 이상 적용된 애노테이션
 * ex) RestController = ResponseBody + Controller
+
+### 합성 애노테이션 적용
+* @Retention
+  * default 값은 CLASS
+  * 어노테이션 정보가 컴파일된 class 파일까지는 살아 있지만 런타임에는 사라지게 된다.
+  * 따라서 Runtime에 정보가 유지돌 수 있도록 RUNTIME으로 변경해야 한다.
+* @Target
+  * ElementType.TYPE: class, interface, enum
