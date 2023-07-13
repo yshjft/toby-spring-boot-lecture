@@ -142,3 +142,17 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * 따라서 Runtime에 정보가 유지돌 수 있도록 RUNTIME으로 변경해야 한다.
 * @Target
   * ElementType.TYPE: class, interface, enum
+
+### 빈 오브젝의 역할과 구분
+* 애플리케이션 빈
+  * 개발자가 명시적으로 구성 정보를 제공한 빈
+  * 애플리케이션 로직 빈과 인프라스트럭처 빈으로 구분할 수 있다.
+* 애플리케이션 로직 빈
+  * 비즈니스 로직
+  * 컴포넌트 스캔
+* 애플리케이션 인프라스트럭처 빈
+  * 애플리케이션이 동작하기 위해 필요한 기술 제공
+  * 자동 구성 정보(Auto Configuration)
+  * by @Configuration
+* 컨테이너 인프라스트럭처 빈
+  * 컨테이너 자신 또는 컨테이너가 스스로 등록한 빈
