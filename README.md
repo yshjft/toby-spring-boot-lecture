@@ -156,3 +156,30 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * by @Configuration
 * 컨테이너 인프라스트럭처 빈
   * 컨테이너 자신 또는 컨테이너가 스스로 등록한 빈
+ 
+### 인프라 빈 구성 정보의 분리
+* @Import를 이요하여 스캔 대상이 아닌 클래스를 빈으로 등록할 수 있다.
+  * 로직과 자동 구성정보를 다른 패키지로 완전 분리
+  * @Import 역시 메타 애노테이션
+
+### 동적인 자동 구성 정보 등록
+* 동적으로 자동 구성 정보를 다룰 수 있다.
+  * 상황을 고려하여 구성 정보의 포함 여부를 고려
+  * (현재 강의에서는 EnableMyAutoConfiguration을 고치지 않는 것을 고려)
+* ImportSelector라는 인터페이스를 이용하자
+  * 스프링 프레임워크에서 지원
+  * ImportSelector를 @Import하면 selectImports가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용한다.
+
+### 자동 구성 정보 파일 분리
+* ImportCandidates.load(파일이름, classLoader)
+  * META-INF/spring/full-qualified-annotation-name.imports에 있는 내용을 읽어와 String[]로 반환
+
+### 자동 구성 애노테이션 적용
+* 인프라 빈 클래스에 @MyAutoConfiguration을 사용한다.
+  * @Configuration을 사용한다고 빈 등록이 안되는 것은 아니다. 다만 관례(?)라고 한다.
+
+### @Configuration 클래스 동작 방식
+* proxyBeanMethods=true
+  * proxy 객체 생성 후 Bean 등록
+* proxyBeanMethods=false
+  * 
