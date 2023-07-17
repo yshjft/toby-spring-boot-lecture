@@ -182,4 +182,4 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 * proxyBeanMethods=true
   * proxy 객체 생성 후 Bean 등록
 * proxyBeanMethods=false
-  * 
+  * proxy 객체 생성 안함
