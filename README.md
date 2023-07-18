@@ -183,3 +183,14 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * proxy 객체 생성 후 Bean 등록
 * proxyBeanMethods=false
   * proxy 객체 생성 안함
+
+## 조건부 자동 구성
+### 스터디와 Jetty 서버 구성 추가
+* AutoConfiguration
+  * 애플리케이션이 필요로 하는 빈을 자동으로 만들어 준다.
+
+### @Conditional과 Condition
+* @Conditional
+  * @Configuration과 @Bean에 사용 가능
+  * 만약 @Configuration은 false & @Bean은 true 라면?
+    * @Bean까지 고려하지도 않는다. @Configuration이 true여야 @Bean을 고려한다. 
