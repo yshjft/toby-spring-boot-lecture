@@ -255,3 +255,7 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * 빈이 다 등록되면 특정 기능이 자동으로 수행되게 하기 위해 사용
 * 우선순위
   * System Property > 환경 변수 > application.properties 
+
+### @Value와 PropertySourcesPlaceholderConfigurer
+* 치환자(${})를 그냥 사용할 수 있는게 아니라 추갖거인 처리(빈 등록)가 필요하다.
+  * PropertySourcesPlaceholderConfigurer 타입의 빈 등록 필요
