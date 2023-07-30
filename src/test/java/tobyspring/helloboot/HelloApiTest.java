@@ -13,7 +13,7 @@ class HelloApiTest {
     @Test
     void helloApi() {
         TestRestTemplate restTemplate = new TestRestTemplate();
-        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:8080/app/hello?name={name}", String.class, "Spring");
+        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:9090/app/hello?name={name}", String.class, "Spring");
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.OK); // 상태코드
         assertThat(res.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.TEXT_PLAIN_VALUE)).isTrue(); // 헤더
@@ -23,7 +23,7 @@ class HelloApiTest {
     @Test
     void failHelloApi() {
         TestRestTemplate restTemplate = new TestRestTemplate();
-        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:8080/app/hello?name={name}", String.class, "");
+        ResponseEntity<String> res = restTemplate.getForEntity("http://localhost:9090/app/hello?name={name}", String.class, "");
 
         assertThat(res.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
     }

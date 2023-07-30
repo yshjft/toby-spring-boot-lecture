@@ -259,3 +259,9 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 ### @Value와 PropertySourcesPlaceholderConfigurer
 * 치환자(${})를 그냥 사용할 수 있는게 아니라 추갖거인 처리(빈 등록)가 필요하다.
   * PropertySourcesPlaceholderConfigurer 타입의 빈 등록 필요
+
+### 프로퍼티 클래스의 원리
+* 클래스 필드에 프로퍼티 정의
+  * 프로퍼티가 굉장히 많을 수 있는데 Config 클래스가 프로퍼티 값으로 가득 채워야하는 문제
+  * 특정 프로퍼티들은 하나 이상의 Config에서 재사용할 수 있어야 하는데 필드에 집어 넣으면 재사용하기 힘들어진다.
+* Spring Boot에서는 프로퍼티 값들을 찾아 놓은 클래스들이 있고 이를 자동 구성 클래스에서 주입 받아 사용한다.
