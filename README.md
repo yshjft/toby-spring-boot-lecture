@@ -265,3 +265,9 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * 프로퍼티가 굉장히 많을 수 있는데 Config 클래스가 프로퍼티 값으로 가득 채워야하는 문제
   * 특정 프로퍼티들은 하나 이상의 Config에서 재사용할 수 있어야 하는데 필드에 집어 넣으면 재사용하기 힘들어진다.
 * Spring Boot에서는 프로퍼티 값들을 찾아 놓은 클래스들이 있고 이를 자동 구성 클래스에서 주입 받아 사용한다.
+
+### 프로퍼티 빈의 후처리기 도입
+* BeanPostProcessor를 만들어서 빈 오브젝트 생성 후에 후처리 작업을 진행시킬 수 있다.
+  * 프로퍼티 빈을 만드는 코드를 하나하나 만들 필요가 없다.
+* prefix를 이용하여 namespace처럼 사용한다.
+* (명심하자 지금 강의에서 만들어보고 있는 것은 Spring Boot에서 이미 만들어져 사용되고 있는 기능들이다.)
