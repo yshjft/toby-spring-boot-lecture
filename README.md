@@ -271,3 +271,6 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * 프로퍼티 빈을 만드는 코드를 하나하나 만들 필요가 없다.
 * prefix를 이용하여 namespace처럼 사용한다.
 * (명심하자 지금 강의에서 만들어보고 있는 것은 Spring Boot에서 이미 만들어져 사용되고 있는 기능들이다.)
+
+
+## SECTION9
