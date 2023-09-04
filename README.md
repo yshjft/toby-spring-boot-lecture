@@ -271,3 +271,13 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
   * 프로퍼티 빈을 만드는 코드를 하나하나 만들 필요가 없다.
 * prefix를 이용하여 namespace처럼 사용한다.
 * (명심하자 지금 강의에서 만들어보고 있는 것은 Spring Boot에서 이미 만들어져 사용되고 있는 기능들이다.)
+
+
+## SECTION9
+### JdbcTemplate과 트랜잭션 매니저 구성
+* 자동구성의 순서를 정할 수 있다.
+* @ConditionalOnSingleCandidate(~.class)
+  * bean 메서드 실행 시 ~.class 타입의 빈이 딱 하나만 등록되어 있다면 그 등록된 빈을 가지고 사용하겠다는 의미
+* @EnableTransactionManagement
+  * AOP와 관련된 기능을 넣기 위해 사용
+  * JdbcTransactionManager와 함께 @Transactional이라는 애노테이션을 사용할 수 있다.
