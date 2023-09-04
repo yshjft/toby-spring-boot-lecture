@@ -123,3 +123,63 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
     * 실제 사용할 객체의 비용이 너무 비싸서 객체의 생성을 최대한 미룰 때 사용할 수 있다.
   * Remote Access
     * 사용자 측에서 API 호출 등의 영향을 받지 않도록 Proxy가 대리자의 역할을 한다.
+
+## SECTION 6 자도 구성 기반 애플리케이션
+### 메타 애노테이션
+* 애노테이션에 적용한 애노테이션
+* ex) @Component
+* 동일한 기능을 하면서 추가적인 정보와 기능 제공
+* (질문) @Target에 ElementType.ANNOTATION_TYPE이 포함되지 않는데 어떻게 메타 에노테이션으로 사용할 수 있는 걸까? ex) @Component,...
+
+### 합성 애노테이션
+* 메타 애노테이션이 하나 이상 적용된 애노테이션
+* ex) RestController = ResponseBody + Controller
+
+### 합성 애노테이션 적용
+* @Retention
+  * default 값은 CLASS
+  * 어노테이션 정보가 컴파일된 class 파일까지는 살아 있지만 런타임에는 사라지게 된다.
+  * 따라서 Runtime에 정보가 유지돌 수 있도록 RUNTIME으로 변경해야 한다.
+* @Target
+  * ElementType.TYPE: class, interface, enum
+
+### 빈 오브젝의 역할과 구분
+* 애플리케이션 빈
+  * 개발자가 명시적으로 구성 정보를 제공한 빈
+  * 애플리케이션 로직 빈과 인프라스트럭처 빈으로 구분할 수 있다.
+* 애플리케이션 로직 빈
+  * 비즈니스 로직
+  * 컴포넌트 스캔
+* 애플리케이션 인프라스트럭처 빈
+  * 애플리케이션이 동작하기 위해 필요한 기술 제공
+  * 자동 구성 정보(Auto Configuration)
+  * by @Configuration
+* 컨테이너 인프라스트럭처 빈
+  * 컨테이너 자신 또는 컨테이너가 스스로 등록한 빈
+ 
+### 인프라 빈 구성 정보의 분리
+* @Import를 이요하여 스캔 대상이 아닌 클래스를 빈으로 등록할 수 있다.
+  * 로직과 자동 구성정보를 다른 패키지로 완전 분리
+  * @Import 역시 메타 애노테이션
+
+### 동적인 자동 구성 정보 등록
+* 동적으로 자동 구성 정보를 다룰 수 있다.
+  * 상황을 고려하여 구성 정보의 포함 여부를 고려
+  * (현재 강의에서는 EnableMyAutoConfiguration을 고치지 않는 것을 고려)
+* ImportSelector라는 인터페이스를 이용하자
+  * 스프링 프레임워크에서 지원
+  * ImportSelector를 @Import하면 selectImports가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용한다.
+
+### 자동 구성 정보 파일 분리
+* ImportCandidates.load(파일이름, classLoader)
+  * META-INF/spring/full-qualified-annotation-name.imports에 있는 내용을 읽어와 String[]로 반환
+
+### 자동 구성 애노테이션 적용
+* 인프라 빈 클래스에 @MyAutoConfiguration을 사용한다.
+  * @Configuration을 사용한다고 빈 등록이 안되는 것은 아니다. 다만 관례(?)라고 한다.
+
+### @Configuration 클래스 동작 방식
+* proxyBeanMethods=true
+  * proxy 객체 생성 후 Bean 등록
+* proxyBeanMethods=false
+  * proxy 객체 생성 안함
