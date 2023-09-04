@@ -169,6 +169,8 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 * ImportSelector라는 인터페이스를 이용하자
   * 스프링 프레임워크에서 지원
   * ImportSelector를 @Import하면 selectImports가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용한다.
+  * DefferedImportSelector
+    * 유저 구성 정보를 우선적으로 로딩하기 위함이다.
 
 ### 자동 구성 정보 파일 분리
 * ImportCandidates.load(파일이름, classLoader)
@@ -181,5 +183,60 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 ### @Configuration 클래스 동작 방식
 * proxyBeanMethods=true
   * proxy 객체 생성 후 Bean 등록
+  * 팩토리 메서드를 통해 매번 새롭게 객체가 만들어지는 것을 방지
+  * @Configuration이 붙은 경우 기본적으로 적용
 * proxyBeanMethods=false
   * proxy 객체 생성 안함
+  * 매번 새로운 객체를 생성하게 된다.
+  * @Component와 동일하게 동작
+  * Bean 사이 의존관계를 주입할게 아니라면 이 방법을 택하는게 좋음
+
+## 조건부 자동 구성
+### 스터디와 Jetty 서버 구성 추가
+* AutoConfiguration
+  * 애플리케이션이 필요로 하는 빈을 자동으로 만들어 준다.
+
+### @Conditional과 Condition
+* @Conditional
+  * @Configuration과 @Bean에 사용 가능
+  * 만약 @Configuration은 false & @Bean은 true 라면?
+    * @Bean까지 고려하지도 않는다. @Configuration이 true여야 @Bean을 고려한다.
+
+### @Conditional 학습테스트
+*  metadata.getAnnotationAttributes("애노테이션 이름");
+  * 해당 애노테이션의 어트리뷰 값들을 모두 읽어 온다.
+
+### 커스텀 @Conditional
+* (참고)  gradle의 의존성에서 원하는 모듈 제거하는 법
+  ```
+  implementation ('org.springframework.boot:spring-boot-starter-web') {
+           include group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+  }
+  ```
+
+### 자동 구성 정보 대체하기
+* 자동 구성으로 등록되는 빈과 동일한 타입의 빈을 @Configuration/@Bean을 이용해서 직접 정의하는 경우 이 빈 구성이 자동 구성을 대체할 수 있다.
+* @ConditionalOnMissingBean
+  * 동일한 타입의 Bean이 이미 등록되어 있는 경우 Bean을 등록하지 않는다.
+  * 강의에서는 사용자 구성 정보로 Bean이 등록되어 있는 경우 자동 구성 정보로 중복된 Bean을 등록하지 않기 위해 사용
+
+### 스프링 부트의 @Conditional
+* Class Conditions
+  * 지정한 클래스가 프로젝트내 존재하는지 확인해서 포함 여부를 결정한다.
+  * 클래스 레벨의 검증 없이 @Bean 메서드에만 적용하면 불필요한 @Configuration 클래스가 빈으로 등록될 수 있으니 클레스 레벨 검증을 먼저 사용해야 한다.
+* Bean Conditions
+  * 빈의 존재여부를 기준으로 포함 여부를 결정
+  * 빈 등록 순서가 중요하다
+    * 컨테이너에 등록된 빈 정보를 기준으로 체크한다.
+    * 커스텀 빈이 먼저 등록되기 때문에 자동 구성 정보에 대한 빈을 등록할지 안할지 판달할 때 사용은 좋다
+    * 다만 반대 상황의 경우 사용을 피해야 한다.
+* Property Conditions
+  * 프로퍼티 저옵를 이용한다.
+    * 지정된 프로퍼티가 존재하고 값이 false가 아니면 포함 대상이다.
+* Resource Conditions
+  * 파일의 존재를 확인하는 조건
+* Web Application Conditions
+  * 웹 애플리케이션 여부를 확인
+* SpEL Expression Conditions
+  * SpEL의 처리 결과를 기주능로 판단
+  * 매우 상세한 조건 설정이 가능하다.
