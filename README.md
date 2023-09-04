@@ -240,3 +240,34 @@ GenericWebApplicationContext applicationContext = new GenericWebApplicationConte
 * SpEL Expression Conditions
   * SpEL의 처리 결과를 기주능로 판단
   * 매우 상세한 조건 설정이 가능하다.
+
+
+## SECTION8
+### Environment 추상화와 프로퍼티
+* 자동 구성은 왜 필요
+  * 스프링 부트가 우리를 대신하여 인프라스트럭처 빈의 Configuration 클래스를 미리 만들어 놓았다.
+  * 개발자는 이걸 그냥 사용하면 된다.
+
+### 자동 구성에 Environment 프로퍼티 적용
+* ApplicationRunner
+  * functional interface
+  * 해당 인터페이스를 구현하여 빈으로 등록하면 모든 Spring Boot 초기화 작업 이후 해당 ApplicationRunner을 구현한 오브젝트들을 Run 메서드를 통해 실행
+  * 빈이 다 등록되면 특정 기능이 자동으로 수행되게 하기 위해 사용
+* 우선순위
+  * System Property > 환경 변수 > application.properties 
+
+### @Value와 PropertySourcesPlaceholderConfigurer
+* 치환자(${})를 그냥 사용할 수 있는게 아니라 추갖거인 처리(빈 등록)가 필요하다.
+  * PropertySourcesPlaceholderConfigurer 타입의 빈 등록 필요
+
+### 프로퍼티 클래스의 원리
+* 클래스 필드에 프로퍼티 정의
+  * 프로퍼티가 굉장히 많을 수 있는데 Config 클래스가 프로퍼티 값으로 가득 채워야하는 문제
+  * 특정 프로퍼티들은 하나 이상의 Config에서 재사용할 수 있어야 하는데 필드에 집어 넣으면 재사용하기 힘들어진다.
+* Spring Boot에서는 프로퍼티 값들을 찾아 놓은 클래스들이 있고 이를 자동 구성 클래스에서 주입 받아 사용한다.
+
+### 프로퍼티 빈의 후처리기 도입
+* BeanPostProcessor를 만들어서 빈 오브젝트 생성 후에 후처리 작업을 진행시킬 수 있다.
+  * 프로퍼티 빈을 만드는 코드를 하나하나 만들 필요가 없다.
+* prefix를 이용하여 namespace처럼 사용한다.
+* (명심하자 지금 강의에서 만들어보고 있는 것은 Spring Boot에서 이미 만들어져 사용되고 있는 기능들이다.)
